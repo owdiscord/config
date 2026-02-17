@@ -1,0 +1,124 @@
+services:
+  ###############
+  ## Athena
+  ###############
+  
+  migrate:
+    container_name: athena_migrate
+    build: 
+      context: .
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment: &env
+      - NODE_ENV=production
+      - DB_HOST=ow_database
+      - DB_PORT=3306
+      - DB_USER=athena
+      - DB_PASSWORD=${STANDALONE_MYSQL_PASSWORD}
+      - DB_DATABASE=athena
+      - API_PATH_PREFIX=/api
+    env_file:
+      - .athena.env
+    working_dir: /zeppelin/backend
+    command: ["npm", "run", "migrate-prod"]
+
+  athena_api:
+    container_name: athena_api
+    image: ghcr.io:owdiscord/athena:main
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: on-failure
+    environment: *env
+    env_file:
+      - .athena.env
+    working_dir: /zeppelin/backend
+    command: ["npm", "run", "start-api-prod"]
+
+  athena_bot:
+    container_name: athena_bot
+    image: ghcr.io:owdiscord/athena:main
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: on-failure
+    environment: *env
+    env_file:
+      - .athena.env
+    working_dir: /zeppelin/backend
+    command: ["npm", "run", "start-bot-prod"]
+  
+  athena_dashboard:
+    container_name: athena_dashboard
+    image: ghcr.io:owdiscord/athena:main
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: on-failure
+    environment: *env
+    env_file:
+      - .athena.env
+    working_dir: /zeppelin/dashboard
+    command: ["node", "serve.js"]
+
+  ###############
+  ## Modmail
+  ###############
+
+  modmail:
+    image: ghcr.io:owdiscord/modmail:main
+    container_name: modmail
+    restart: unless-stopped
+    env_file:
+      - .modmail.env
+    volumes:
+      - $PWD/modmail/config.ini:/app/config.ini:ro
+      - $PWD/modmail/attachments:/app/attachments
+      - $PWD/modmail/logs:/app/logs
+
+  ###############
+  ## Shared Services
+  ###############
+      
+  caddy:
+    container_name: ow_caddy
+    image: caddy:latest 
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - $PWD/caddy:/etc/caddy
+
+  mysql:
+    container_name: ow_database
+    image: mariadb:12
+    environment:
+      MYSQL_ROOT_PASSWORD: ${STANDALONE_MYSQL_ROOT_PASSWORD?:Missing STANDALONE_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: athena
+      MYSQL_USER: athena
+      MYSQL_PASSWORD: ${STANDALONE_MYSQL_PASSWORD?:Missing STANDALONE_MYSQL_PASSWORD}
+    ports:
+      - 127.0.0.1:${STANDALONE_MYSQL_PORT:?Missing STANDALONE_MYSQL_PORT}:3306
+    volumes:
+      - maria-data:/var/lib/mysql
+    command:
+      - "--skip-log-bin"
+    restart: unless-stopped
+    healthcheck:
+      test: "/usr/bin/mysql --host=127.0.0.1 --user=root --password=\"${STANDALONE_MYSQL_ROOT_PASSWORD}\" --execute \"SHOW DATABASES;\""
+      interval: 1s
+      timeout: 5s
+      retries: 60
+
+  redis:
+    image: redis:8.2.3
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+
+volumes:
+  maria-data: {}
+  redis-data: {}
