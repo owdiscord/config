@@ -103,7 +103,7 @@ services:
       - "--skip-log-bin"
     restart: unless-stopped
     healthcheck:
-      test: "/usr/bin/mysql --host=127.0.0.1 --user=root --password=\"${STANDALONE_MYSQL_ROOT_PASSWORD}\" --execute \"SHOW DATABASES;\""
+      test: "/usr/bin/mariadb --host=127.0.0.1 --user=root --password=\"${STANDALONE_MYSQL_ROOT_PASSWORD}\" --execute \"SHOW DATABASES;\""
       interval: 1s
       timeout: 5s
       retries: 60
