@@ -35,14 +35,14 @@ appeal.owdiscord.org, appeals.owdiscord.org {
 
 athena.owdiscord.org {
   handle /api* {
-    reverse_proxy http://api:8080
+    reverse_proxy http://athena_api:8080
     request_body {
       max_size 200MB
     }
   }
 
   handle {
-    reverse_proxy http://dashboard:8080
+    reverse_proxy http://athena_dashboard:8080
   }
 }
 
