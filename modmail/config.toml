@@ -1,45 +1,41 @@
-# Required settings
-token = "discord-token-here" 
-mainServerId = [ 1 ]
-inboxServerId = 2 
-logChannelId = 3 
+# Required
+mainServers = [
+  "94882524378968064",
+  "587215460127473703"
+]
+inboxServer = "255438591214223362"
+logChannel = "255438591214223362"
 
 # Common settings
 prefix = "!"
+anonPrefix = "!!"
 status = "DM to contact staff"
 responseMessage = "Thank you for your message! Our mod team will reply to you here as soon as possible."
 closeMessage = "Thank you for contacting us, the ticket is now closed. If you need more help, feel free to send us another message!"
-# If this is on, every single message in the thread gets forwarded to the user.
+mentionRoles = ["here"]
 alwaysReply = false
 alwaysReplyAnon = false
-mentionUserInThreadHeader = true
 rolesInThreadHeader = true
-# Deprecated
-attachmentStorage = "local"
-# Semi-deprecated, since we now use registrations.
 useNicknames = true
 ignoreAccidentalThreads = true
 allowMove = true
-typingProxy = true
-typingProxyReverse = true
+typingProxyToInbox = true
+typingProxyToUser = false
 pingOnBotMention = false
-mentionRole = "here"
+overwatchGuildId = "94882524378968064"
+banGuildId = "587215460127473703"
 
-# Configure message requirements
-[accountRequirements]
+[automation]
+newThreadCategory = [
+  { server = "587215460127473703", category = "587226082814722068" }
+]
+
+[requirements]
 accountAge = 0.166
 accountAgeDeniedMessage = "Your Discord account is not old enough to contact modmail yet"
-timeOnServer = 10 # In minutes
+timeOnServer = 10
 timeOnServerDeniedMessage = "You haven't been a member of the server for long enough to contact modmail yet"
 
 [web]
-port = "8800"
-url = "http://localhost:8800"
-
-
-[database]
-host = "localhost"
-port = 3306
-user = "modmail"
-password = "password"
-database = "modmail"
+port = "8001"
+url = "https://modmail.owdiscord.org"
