@@ -68,7 +68,7 @@ services:
       - modmail.env
     volumes:
       - $PWD/modmail/config.toml:/app/config.toml:ro
-      - $PWD/modmail/secret.toml:/app/secret.toml:ro
+      - $PWD/modmail/secrets.toml:/app/secrets.toml:ro
       - $PWD/modmail/attachments:/app/attachments
       - $PWD/modmail/logs:/app/logs
 
