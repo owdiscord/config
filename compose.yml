@@ -5,7 +5,7 @@ services:
   
   migrate:
     container_name: athena_migrate
-    image: ghcr.io:owdiscord/athena-backend:main
+    image: ghcr.io/owdiscord/athena-backend:main
     depends_on:
       mysql:
         condition: service_healthy
@@ -24,7 +24,7 @@ services:
 
   athena_api:
     container_name: athena_api
-    image: ghcr.io:owdiscord/athena-api:main
+    image: ghcr.io/owdiscord/athena-api:main
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -34,7 +34,7 @@ services:
 
   athena_bot:
     container_name: athena_bot
-    image: ghcr.io:owdiscord/athena-backend:main
+    image: ghcr.io/owdiscord/athena-backend:main
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -47,7 +47,7 @@ services:
   
   athena_dashboard:
     container_name: athena_dashboard
-    image: ghcr.io:owdiscord/athena-dashboard:main
+    image: ghcr.io/owdiscord/athena-dashboard:main
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -61,7 +61,7 @@ services:
   ###############
 
   modmail:
-    image: ghcr.io:owdiscord/modmail:main
+    image: ghcr.io/owdiscord/modmail:main
     container_name: modmail
     restart: unless-stopped
     env_file:
