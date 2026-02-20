@@ -5,8 +5,7 @@ services:
   
   migrate:
     container_name: athena_migrate
-    build: 
-      context: .
+    image: ghcr.io:owdiscord/athena:main
     depends_on:
       mysql:
         condition: service_healthy

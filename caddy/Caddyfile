@@ -1,0 +1,51 @@
+## Redirect old domain
+appeal.ow2discord.org, appeals.ow2discord.org {
+  redir https://appeals/owdiscord.org
+}
+
+ow2discord.org {
+  redir https://owdiscord.org{uri}
+}
+
+athena.ow2discord.org {
+  redir https://owdiscord.org{uri}
+}
+
+appeal.owdiscord.org, appeals.owdiscord.org {
+  redir https://discord.gg/ggaWYVz
+}
+
+modmail.ow2discord.org {
+  redir https://modmail.owdiscord.org{uri}
+}
+
+# Real domain config
+owdiscord.org {
+  @appeals {
+    path /appeal*
+    path /appeals*
+  }
+
+  handle @appeals {
+    redir https://discord.gg/ggaWYVz
+  }
+
+  redir https://discord.gg/overwatch
+}
+
+athena.owdiscord.org {
+  handle /api* {
+    reverse_proxy http://api:3001
+    request_body {
+      max_size 200MB
+    }
+  }
+
+  handle {
+    reverse_proxy http://dashboard:3002
+  }
+}
+
+modmail.owdiscord.org {
+  reverse_proxy http://modmail:8001
+}
