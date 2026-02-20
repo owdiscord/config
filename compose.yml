@@ -72,6 +72,20 @@ services:
       - $PWD/modmail/attachments:/app/attachments
       - $PWD/modmail/logs:/app/logs
 
+
+  ###############
+  ## Trakt
+  ###############
+  trakt:
+    container_name: trakt
+    image: ghcr.io/owdiscord/trakt:latest
+    environment:
+      CONFIG_LOCATION: "/app/config.json"
+      DATABASE: "/app/db/trakt.db"
+    volumes:
+      - "./trakt/config.json:/app/config.json"
+      - "./trakt/db:/app/db"
+
   ###############
   ## Shared Services
   ###############
