@@ -1,4 +1,5 @@
 # Exclude real env files
-.modmail.env
-.athena.env
+modmail.env
+athena.env
+api.env
 modmail/secrets.toml

@@ -18,7 +18,7 @@ services:
       - DB_DATABASE=athena
       - API_PATH_PREFIX=/api
     env_file:
-      - .athena.env
+      - athena.env
     working_dir: /zeppelin/backend
     command: ["npm", "run", "migrate-prod"]
 
@@ -29,9 +29,8 @@ services:
       migrate:
         condition: service_completed_successfully
     restart: on-failure
-    environment: *env
     env_file:
-      - .athena.env
+      - api.env
 
   athena_bot:
     container_name: athena_bot
@@ -42,7 +41,7 @@ services:
     restart: on-failure
     environment: *env
     env_file:
-      - .athena.env
+      - athena.env
     working_dir: /zeppelin/backend
     command: ["npm", "run", "start-bot-prod"]
   
@@ -55,7 +54,7 @@ services:
     restart: on-failure
     environment: *env
     env_file:
-      - .athena.env
+      - athena.env
 
   ###############
   ## Modmail
@@ -66,9 +65,10 @@ services:
     container_name: modmail
     restart: unless-stopped
     env_file:
-      - .modmail.env
+      - modmail.env
     volumes:
-      - $PWD/modmail/config.ini:/app/config.ini:ro
+      - $PWD/modmail/config.toml:/app/config.toml:ro
+      - $PWD/modmail/secret.toml:/app/secret.toml:ro
       - $PWD/modmail/attachments:/app/attachments
       - $PWD/modmail/logs:/app/logs
 
