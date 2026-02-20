@@ -103,7 +103,7 @@ services:
 
   mysql:
     container_name: ow_database
-    image: mariadb:12
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: ${STANDALONE_MYSQL_ROOT_PASSWORD?:Missing STANDALONE_MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: athena
@@ -112,12 +112,12 @@ services:
     ports:
       - 127.0.0.1:${STANDALONE_MYSQL_PORT:?Missing STANDALONE_MYSQL_PORT}:3306
     volumes:
-      - maria-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     command:
       - "--skip-log-bin"
     restart: unless-stopped
     healthcheck:
-      test: "/usr/bin/mariadb --host=127.0.0.1 --user=root --password=\"${STANDALONE_MYSQL_ROOT_PASSWORD}\" --execute \"SHOW DATABASES;\""
+      test: "/usr/bin/mysql --host=127.0.0.1 --user=root --password=\"${STANDALONE_MYSQL_ROOT_PASSWORD}\" --execute \"SHOW DATABASES;\""
       interval: 1s
       timeout: 5s
       retries: 60
@@ -129,5 +129,5 @@ services:
       - redis-data:/data
 
 volumes:
-  maria-data: {}
+  mysql-data: {}
   redis-data: {}
