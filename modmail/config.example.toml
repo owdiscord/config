@@ -1,0 +1,45 @@
+# Required settings
+token = "discord-token-here" 
+mainServerId = [ 1 ]
+inboxServerId = 2 
+logChannelId = 3 
+
+# Common settings
+prefix = "!"
+status = "DM to contact staff"
+responseMessage = "Thank you for your message! Our mod team will reply to you here as soon as possible."
+closeMessage = "Thank you for contacting us, the ticket is now closed. If you need more help, feel free to send us another message!"
+# If this is on, every single message in the thread gets forwarded to the user.
+alwaysReply = false
+alwaysReplyAnon = false
+mentionUserInThreadHeader = true
+rolesInThreadHeader = true
+# Deprecated
+attachmentStorage = "local"
+# Semi-deprecated, since we now use registrations.
+useNicknames = true
+ignoreAccidentalThreads = true
+allowMove = true
+typingProxy = true
+typingProxyReverse = true
+pingOnBotMention = false
+mentionRole = "here"
+
+# Configure message requirements
+[accountRequirements]
+accountAge = 0.166
+accountAgeDeniedMessage = "Your Discord account is not old enough to contact modmail yet"
+timeOnServer = 10 # In minutes
+timeOnServerDeniedMessage = "You haven't been a member of the server for long enough to contact modmail yet"
+
+[web]
+port = "8800"
+url = "http://localhost:8800"
+
+
+[database]
+host = "localhost"
+port = 3306
+user = "modmail"
+password = "password"
+database = "modmail"
