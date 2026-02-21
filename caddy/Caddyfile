@@ -8,7 +8,7 @@ ow2discord.org {
 }
 
 athena.ow2discord.org {
-  redir https://owdiscord.org{uri}
+  redir https://athena.owdiscord.org{uri}
 }
 
 modmail.ow2discord.org {
