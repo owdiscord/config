@@ -24,10 +24,14 @@ typingProxyToUser = false
 pingOnBotMention = false
 overwatchGuildId = "94882524378968064"
 banGuildId = "587215460127473703"
+inboxPermissions = ["KickMembers"]
+showResponseMessageInInbox = false
 
 [automation]
+defaultCategory = "360863035130249235"
 newThreadCategory = [
-  { server = "587215460127473703", category = "587226082814722068" }
+  { server = "94882524378968064", category = "587226082814722068" },
+  { server = "587215460127473703", category = "587226082814722068" },
 ]
 
 [requirements]
